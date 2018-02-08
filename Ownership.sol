@@ -4,7 +4,7 @@ contract Ownership {
     
     address owner;
     
-    event TransferOwnership(address indexed oldOwner, address indexed newOwner);
+    event TransferOwnership(address indexed from, address indexed to);
     
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -15,10 +15,13 @@ contract Ownership {
         owner = msg.sender;
     }
     
-    function transferOwnership (address _owner) public onlyOwner returns (address) {
+    function getOwner () public view returns (address) { 
+        return owner;
+    }
+    
+    function transferOwnership (address _owner) public onlyOwner {
         owner = _owner;
         TransferOwnership(msg.sender, _owner);
-        return owner;
     }
     
 }
