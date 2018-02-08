@@ -4,7 +4,7 @@ contract Ownership {
     
     address owner;
     
-    event TransferOwnership(address indexed from, address indexed to);
+    event TransferOwnership(address indexed oldOwner, address indexed newOwner);
     
     modifier onlyOwner() {
         require(msg.sender == owner);
