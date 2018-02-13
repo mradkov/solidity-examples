@@ -29,24 +29,28 @@ contract PurchasableService is Owned {
     uint lastWithdrawal;
     
     modifier lastPurchase() {
-        require(now - lastBought >= 2 minutes);
+        require(now - lastBought >= 2 seconds);
         _;
     }
     
+    modifier collectPayment(uint amount) {
+        require(msg.value >= amount);
+        uint extraMoney = msg.value - serviceCost;
+        if (extraMoney > 0) {
+            msg.sender.transfer(extraMoney);
+        }
+        _;
+    }
+
     function PurchasableService() public {
         owner = msg.sender;
         serviceCost = 1 ether;
         lastBought = 0;
     }
     
-    function purchase() public payable lastPurchase {
-        require(msg.value >= 1 ether);
+    function purchase() public payable lastPurchase collectPayment(5 ether) {
         LogServiceBought(msg.sender);
         lastBought = now;
-        uint extraMoney = msg.value - serviceCost;
-        if (extraMoney > 0) {
-            msg.sender.transfer(extraMoney);
-        }
     }
     
     function withdraw(uint amount) public onlyOwner {
