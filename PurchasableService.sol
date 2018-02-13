@@ -39,12 +39,12 @@ contract PurchasableService is Owned {
         lastBought = 0;
     }
     
-    function() public payable {
+    function purchase() public payable lastPurchase {
         require(msg.value >= 1 ether);
         Bought(msg.sender);
         lastBought = now;
         uint extraMoney = msg.value - serviceCost;
-        if(extraMoney > 0) {
+        if (extraMoney > 0) {
             msg.sender.transfer(extraMoney);
         }
     }
@@ -53,8 +53,8 @@ contract PurchasableService is Owned {
         require(now - lastWithdrawal >= 1 hours);
         require(amount < 5 ether);
         require(this.balance >= amount);
-        owner.transfer(amount);
         lastWithdrawal = now;
+        owner.transfer(amount);        
     }
     
 }
