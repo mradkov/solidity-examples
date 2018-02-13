@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity 0.4.19;
 
 
 contract Owned {
@@ -19,6 +19,7 @@ contract Owned {
         owner = _newOwner;
     }
 }
+
 
 contract SimpleToken is Owned {
     
