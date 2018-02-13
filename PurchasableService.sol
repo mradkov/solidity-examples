@@ -3,7 +3,7 @@ pragma solidity ^0.4.19;
 contract Owned {
     address owner;
 
-    event OwnershipTransfered(address indexed _currentOwner, address indexed _newOwner);
+    event LogOwnershipTransfered(address indexed _currentOwner, address indexed _newOwner);
 
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -16,13 +16,13 @@ contract Owned {
 
     function transferOwnership(address _newOwner) public onlyOwner {
         owner = _newOwner;
-        OwnershipTransfered(msg.sender, _newOwner);
+        LogOwnershipTransfered(msg.sender, _newOwner);
     }
 }
 
 contract PurchasableService is Owned {
     
-    event Bought(address indexed buyerAddress);
+    event LogServiceBought(address indexed buyerAddress);
     
     uint serviceCost;
     uint lastBought;
@@ -41,7 +41,7 @@ contract PurchasableService is Owned {
     
     function purchase() public payable lastPurchase {
         require(msg.value >= 1 ether);
-        Bought(msg.sender);
+        LogServiceBought(msg.sender);
         lastBought = now;
         uint extraMoney = msg.value - serviceCost;
         if (extraMoney > 0) {
