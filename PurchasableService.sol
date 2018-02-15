@@ -31,7 +31,7 @@ contract PurchasableService is Owned {
     uint lastWithdrawal;
     
     modifier lastPurchase() {
-        require(now - lastBought >= 2 seconds);
+        require(now - lastBought >= 2 minutes);
         _;
     }
     
@@ -50,14 +50,14 @@ contract PurchasableService is Owned {
         lastBought = 0;
     }
     
-    function purchase() public payable lastPurchase collectPayment(5 ether) {
+    function purchase() public payable lastPurchase collectPayment(1 ether) {
         LogServiceBought(msg.sender);
         lastBought = now;
     }
     
     function withdraw(uint amount) public onlyOwner {
         require(now - lastWithdrawal >= 1 hours);
-        require(amount < 5 ether);
+        require(amount <= 5 ether);
         require(this.balance >= amount);
         lastWithdrawal = now;
         owner.transfer(amount);        
