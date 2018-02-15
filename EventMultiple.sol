@@ -14,7 +14,7 @@ contract EventMultiple {
         owner = msg.sender;
     }
 
-    function showAddress(string greeting) public {
+    function showInformation(string greeting) public {
         LogInformation(greeting, owner);
     }
 
