@@ -1,5 +1,6 @@
 pragma solidity ^0.4.19;
 
+
 contract Owned {
     address owner;
 
@@ -19,6 +20,7 @@ contract Owned {
         LogOwnershipTransfered(msg.sender, _newOwner);
     }
 }
+
 
 contract PurchasableService is Owned {
     
